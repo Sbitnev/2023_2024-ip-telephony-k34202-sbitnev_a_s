@@ -87,6 +87,7 @@ interface FastEthernet0/3
 ```
 
 Телефоны получили ip и номера:
+
 ![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/67669006-6bc6-4476-a13e-714aa5510e6b)
 
 Проверим звонок между телефонами:
