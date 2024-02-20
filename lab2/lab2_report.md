@@ -111,6 +111,102 @@ interface FastEthernet0/4
 ### Часть 2
 В Cisco Packet Tracer была собрана схема:
 
+![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/deeaaa67-4998-40fa-aefd-bcfd835c0a84)
+
+Создадим 2 VLAN порта на коммутаторе для взаимодействия коммутатора с маршрутизатором.
+
+```
+vlan 10
+name data
+vlan 20
+name voice
+```
+
+Настроим интерфейсы коммутатора:
+
+```
+interface FastEthernet0/1
+ switchport trunk native vlan 30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport voice vlan 1
+!
+interface FastEthernet0/2
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+!
+interface FastEthernet0/3
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+!
+interface FastEthernet0/4
+ switchport access vlan 10
+ switchport mode access
+ switchport voice vlan 20
+```
+
+Зададим маршрут по умолчанию командой ip default-gateway.
+
+```
+ip default-gateway 192.168.30.1
+```
+
+Настроим DHCP сервера для передачи голоса и данных на маршрутизаторе Cisco 2811 и интерфейсы.
+
+```
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp excluded-address 192.168.20.1 192.168.20.10
+!
+ip dhcp pool DATA
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ip dhcp pool VOICE
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ option 150 ip 192.168.20.1
+!
+interface FastEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface FastEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+```
+
+Настроим услуги телефонии Cisco CallManager Express на маршрутизаторе.
+
+```
+telephony-service
+ max-ephones 3
+ max-dn 3
+ ip source-address 192.168.20.1 port 3100
+ auto assign 1 to 3
+!
+ephone-dn 1
+ number 1010
+!
+ephone-dn 2
+ number 2020
+!
+ephone-dn 3
+ number 3030
+```
+
+На компьютерах включим получение ip-адреса по DHCP.
+
+![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/a5bf55c7-db28-464e-a5d3-e43142d14a3c)
+
+Проверим звонки между телефонами и пинги.
+
+![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/e220c141-769b-410c-a044-7e36f70e5b9a)
+
+
+![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/b9f72930-499e-4868-9580-71c07af6a21a)
+
+
 ## **Вывод:** 
 
 В результате выполнения работы были изучено построение сети IP-телефонии с помощью маршрутизатора Cisco 2811, коммутатора Cisco catalyst 3560 и IP телефонов Cisco 7960. 
