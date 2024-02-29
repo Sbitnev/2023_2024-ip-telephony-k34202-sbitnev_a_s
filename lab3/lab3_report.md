@@ -79,7 +79,7 @@ sudo asterisk
 sip show peers
 ```
 
-![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/cabb855c-0636-4a55-a42b-0b5a780ac581)
+![image](https://github.com/Sbitnev/2023_2024-ip-telephony-k34202-sbitnev_a_s/assets/71010852/0aa6b9d8-0774-4820-bee8-9fa83c676c11)
 
 
 ### Сделать тестовый звонок на номер 1000
